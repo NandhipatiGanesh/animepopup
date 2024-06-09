@@ -148,34 +148,69 @@
         }
       }
       .animate.flip {
-animation-name: animate-flip;
-transform-style: preserve-3d;
-perspective: 1000px;
-}
-@keyframes animate-flip {
-0% {
-opacity: 0;
-transform: rotateX(-120deg) scale(0.9,0.9);
-}
-100% {
-    opacity: 1;
-    transform: rotateX(0deg) scale(1,1);
-}
-.animate {
-  animation-duration: 0.75s;
-  animation-duration: 1s; //running slower to show effect
-  animation-delay: 0.5s;
-  animation-name: animate-fade;
-  animation-timing-function: cubic-bezier(.26,.53,.74,1.48);
-  animation-fill-mode: backwards;
-}
+        animation-name: animate-flip;
+        transform-style: preserve-3d;
+        perspective: 1000px;
+      }
+      @keyframes animate-flip {
+        0% {
+          opacity: 0;
+          transform: rotateX(-120deg) scale(0.9, 0.9);
+        }
+        100% {
+          opacity: 1;
+          transform: rotateX(0deg) scale(1, 1);
+        }
+      }
+      .animate {
+        animation-duration: 0.75s;
+        animation-duration: 1s;
+        animation-delay: 0.5s;
+        animation-name: animate-fade;
+        animation-timing-function: cubic-bezier(0.26, 0.53, 0.74, 1.48);
+        animation-fill-mode: backwards;
+      }
+      /* Pop In */
+      .animate-pop-in {
+        animation-name: animate-pop-in;
+        animation-duration: 0.5s;
+        animation-fill-mode: forwards;
+      }
+      @keyframes animate-pop-in {
+        0% {
+          opacity: 0;
+          transform: scale(0.5, 0.5);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1, 1);
+        }
+      }
+      /* Pop Out */
+      .animate-pop-out {
+        animation-name: animate-pop-out;
+        animation-duration: 0.5s;
+        animation-fill-mode: forwards;
+      }
+      @keyframes animate-pop-out {
+        0% {
+          opacity: 1;
+          transform: scale(1, 1);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(0.5, 0.5);
+        }
+      }
     </style>
   </head>
   <body>
     <div class="center">
-      <button type="button" class="main-btn animate flip" onclick="openPop()">Submit</button>
+      <button type="button" class="main-btn animate flip" onclick="openPop()">
+        Submit
+      </button>
       <div class="popup">
-        <div class="popup-content">
+        <div class="popup-content animate-pop-in">
           <div class="close" onclick="closePop()">
             <span class="material-icons-round">cancel</span>
           </div>
@@ -201,10 +236,30 @@ transform: rotateX(-120deg) scale(0.9,0.9);
     </div>
     <script>
       function closePop() {
-        document.querySelector(".popup").style.display = "none";
+        const popup = document.querySelector(".popup");
+        const popupContent = document.querySelector(".popup-content");
+
+        // Add the pop-out animation class
+        popupContent.classList.remove("animate-pop-in");
+        popupContent.classList.add("animate-pop-out");
+
+        // Set a timeout to hide the popup after the animation duration
+        setTimeout(() => {
+          popup.style.display = "none";
+          popupContent.classList.remove("animate-pop-out");
+        }, 500); // Match the animation duration
       }
+
       function openPop() {
-        document.querySelector(".popup").style.display = "flex";
+        const popup = document.querySelector(".popup");
+        const popupContent = document.querySelector(".popup-content");
+
+        // Remove the pop-out animation class if it exists
+        popupContent.classList.remove("animate-pop-out");
+
+        // Add the pop-in animation class and display the popup
+        popup.style.display = "flex";
+        popupContent.classList.add("animate-pop-in");
       }
     </script>
   </body>
